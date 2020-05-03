@@ -25,6 +25,8 @@ class UserController implements IController {
         this.initializeRoutes();
     }
     private initializeRoutes() {
+        this.router.get(`${this.path}/:ID`,this.getUser);
+        /////////////////////////////////////////////////////////////////////////////////
         this.router.post(`${this.path}/Login`,validationMiddleware(LoginDTO),this.login);
         this.router.post(`${this.path}/Register`,validationMiddleware(RegisterDTO),this.register);
     }
@@ -72,6 +74,17 @@ class UserController implements IController {
                 next(new SomethingWentWrongException());
             }
         }
+    }
+    private getUser = async (request: express.Request, response: express.Response, next: express.NextFunction) => {
+        const _id = request.params.ID;
+        await userModel.findById(_id,'-password  -__v',(err,user:IUser)=>{
+            if(err){
+                next(new SomethingWentWrongException());
+            }
+            else{
+                response.status(200).send(new Response(undefined, { user }).getData());
+            }
+        })
     }
 }
 export default UserController;

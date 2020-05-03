@@ -9,6 +9,10 @@
         {
             "name": "User",
             "description": "API for Account Managment in the system"
+        },
+        {
+            "name":"Posts",
+            "description":"End Points for Managing Pinterest Posts"
         }
     ],
     "schemes": [
@@ -35,8 +39,7 @@
     "produces": [
         "application/json"
     ],
-    "paths": {
-        
+    "paths": { 
         "/api/User/Login": {
             "post": {
                 "tags": [
@@ -157,9 +160,185 @@
                     }
                 }
             }
+        },
+        "/api/User/{ID}":{
+            "get":{
+                "tags": [
+                    "User"
+                ],
+                "summary": "Gets user with ID",
+                "parameters": [
+                    {
+                        "name": "ID",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/definitions/User"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/definitions/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/Posts":{
+            "post": {
+                "tags": [
+                    "Posts"
+                ],
+                "summary": "Creates New Post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/definitions/Post"
+                            }
+                        }
+                    }
+                },
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Post Created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Created Post Successfully"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/definitions/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/Posts/getAllPosts":{
+            "get":{
+                "tags": [
+                    "Posts"
+                ],
+                "summary": "Gets all the posts",
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/definitions/Posts"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/definitions/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/Posts/{ID}":{
+            "get":{
+                "tags": [
+                    "Posts"
+                ],
+                "summary": "Gets post with ID",
+                "parameters": [
+                    {
+                        "name": "ID",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/definitions/Post"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/definitions/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
+        "Post":{
+            "type":"object",
+            "properties":{
+                "picture":{
+                    "type":"string"
+                },
+                "title":{
+                    "type":"string"
+                },
+                "caption":{
+                    "type":"string"
+                }
+            }
+        },
+        "Posts":{
+            "type":"object",
+            "properties":{
+                "payload":{
+                    "type":"array",
+                    "items":{
+                        "$ref":"#/definitions/Post"
+                    }
+                }
+            }
+        },
         "Error": {
             "type": "object",
             "properties": {
@@ -184,6 +363,27 @@
                 }
             }
         },
+        "User": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "followers": {
+                    "type": "number"
+                },
+                "birthDate": {
+                    "type": "string",
+                    "format":"date-time"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "profilePicture": {
+                    "type": "string"
+                }
+            }
+        },
         "UserRegistration": {
             "type": "object",
             "properties": {
@@ -199,6 +399,9 @@
                 },
                 "password": {
                     "type": "string"
+                },
+                "profilePicture":{
+                    "type":"string"
                 }
             }
         }
