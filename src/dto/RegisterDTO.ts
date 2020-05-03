@@ -12,6 +12,10 @@ class RegisterDTO {
 
   @IsString()
   public name:string;
+  
+  @IsString()
+  public profilePicture:string;
+  
 }
 
 export default RegisterDTO;
