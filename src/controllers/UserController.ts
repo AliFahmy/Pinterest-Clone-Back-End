@@ -61,7 +61,7 @@ class UserController implements IController {
                     password: hashedPassword,
                 }, (err: any, user: IUser) => {
                     if (err) {
-                        next(new SomethingWentWrongException());
+                        next(new SomethingWentWrongException(err));
                     }
                     else {
                         user.password = undefined;
@@ -70,8 +70,8 @@ class UserController implements IController {
                     }
                 });
             }
-            catch{
-                next(new SomethingWentWrongException());
+            catch(err){
+                next(new SomethingWentWrongException(err));
             }
         }
     }
@@ -79,7 +79,7 @@ class UserController implements IController {
         const _id = request.params.ID;
         await userModel.findById(_id,'-password  -__v',(err,user:IUser)=>{
             if(err){
-                next(new SomethingWentWrongException());
+                next(new SomethingWentWrongException(err));
             }
             else{
                 response.status(200).send(new Response(undefined, { user }).getData());
