@@ -17,12 +17,12 @@ class App {
     this.app = express();
     this.PORT = process.env.PORT || 5000;
 
-    this.connectToDatabase();
-
+    
     this.initializeMiddlewares();
     
     
     this.initializeControllers(controllers);
+    this.connectToDatabase();
     
     this.app.use("/", swaggerUi.serve,swaggerUi.setup(swaggerDocument));
     

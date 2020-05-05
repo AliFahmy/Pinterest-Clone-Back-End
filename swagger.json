@@ -208,7 +208,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/definitions/Post"
+                                "$ref": "#/definitions/CreatePost"
                             }
                         }
                     }
@@ -246,12 +246,26 @@
                 }
             }
         },
-        "/api/Posts/getAllPosts":{
+        "/api/Posts/getAllPosts/{page}/{userID}":{
             "get":{
                 "tags": [
                     "Posts"
                 ],
                 "summary": "Gets all the posts",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "path",
+                        "required":true,
+                        "type": "number",
+                        "default":1
+                    }, {
+                        "name": "userID",
+                        "in": "path",
+                        "type": "string",
+                        "allowEmptyValue": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "content": {
@@ -314,6 +328,20 @@
         }
     },
     "definitions": {
+        "CreatePost":{
+            "type":"object",
+            "properties":{
+                "picture":{
+                    "type":"string"
+                },
+                "title":{
+                    "type":"string"
+                },
+                "caption":{
+                    "type":"string"
+                }
+            }
+        },
         "Post":{
             "type":"object",
             "properties":{
@@ -324,6 +352,15 @@
                     "type":"string"
                 },
                 "caption":{
+                    "type":"string"
+                },
+                "likes":{
+                    "type":"number"
+                },
+                "_id":{
+                    "type":"string"
+                },
+                "userID":{
                     "type":"string"
                 }
             }

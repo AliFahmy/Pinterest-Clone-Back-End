@@ -17,7 +17,7 @@ async function authMiddleware(request: IRequestWithUser, response: Response, nex
             const _id = verificationResponse._id;
             await userModel.findById(_id,'-password  -__v',(err,user:IUser)=>{
                 if(err){
-                    next(new SomethingWentWrongException());
+                    next(new SomethingWentWrongException(err));
                 }
                 else{
                     request.user = user;
