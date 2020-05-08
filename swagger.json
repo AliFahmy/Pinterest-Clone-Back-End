@@ -198,6 +198,35 @@
                 }
             }
         },
+        "/api/Posts/mostLikedPosts":{
+            "get":{
+                "tags": [
+                    "Posts"
+                ],
+                "summary": "Gets top 5 liked posts",
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/definitions/Posts"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/definitions/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/Posts":{
             "post": {
                 "tags": [
