@@ -27,10 +27,23 @@ class PostController implements IController{
         this.NUMBER_OF_POSTS_PER_PAGE=20;
     }
     private initializeRoutes() {
+        this.router.get(`${this.path}/mostLikedPosts`,this.getMostLikedPosts);
         this.router.get(`${this.path}/getAllPosts/:page/:userID?`,this.getAllPosts);
         this.router.get(`${this.path}/:ID`,this.getPost);
         ///////////////////////////////////////////////////////////////////////
         this.router.post(`${this.path}`,authMiddleware, validationMiddleware(PostDTO),this.createPost);
+    }
+    private getMostLikedPosts = async (request: express.Request, response: express.Response, next: express.NextFunction) => {
+        await postModel
+        .find({},'-__v')
+        .sort({likes:'desc'})
+        .limit(5)
+        .then(async (posts:IPost[])=>{
+            response.status(200).send(new Response(undefined,{ posts }).getData());
+            })
+        .catch(err=>{
+            next(new SomethingWentWrongException(err));
+        }); 
     }
     private getAllPosts = async (request: express.Request, response: express.Response, next: express.NextFunction) => {
         const page:number = parseInt(request.params.page);
