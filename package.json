@@ -16,7 +16,7 @@
     "@types/jsonwebtoken": "^8.3.9",
     "@types/mongoose": "^5.7.14",
     "@types/swagger-ui-express": "^4.1.2",
-    "bcrypt": "^4.0.1",
+    "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
     "class-transformer": "^0.2.3",
     "class-validator": "^0.12.2",
